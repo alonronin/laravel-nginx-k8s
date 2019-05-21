@@ -51,3 +51,5 @@ RUN docker-php-ext-install \
 
 # Cleanup dev dependencies
 RUN apk del -f .build-deps
+
+RUN chown -R www-data:www-data /var/www
