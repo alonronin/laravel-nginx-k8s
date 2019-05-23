@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: twik-home
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: twik-home
+  template:
+    metadata:
+      labels:
+        app: twik-home
+    spec:
+      containers:
+        # Our PHP-FPM application
+        - image: alonronin/php-fpm:php-${hash}
+          name: php-fpm
+
+        # Our nginx container, which uses the configuration declared above,
+        # along with the files shared with the PHP-FPM app.
+        - image: alonronin/php-fpm:nginx-${hash}
+          name: nginx

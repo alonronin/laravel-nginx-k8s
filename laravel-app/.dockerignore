@@ -20,4 +20,7 @@ Homestead.json
 
 # Rocketeer PHP task runner and deployment package. https://github.com/rocketeers/rocketeer
 .rocketeer/
-Dockerfile
+
+# Deployment files
+deploy
+!deploy/config

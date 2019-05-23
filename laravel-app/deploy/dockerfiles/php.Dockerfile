@@ -1,15 +1,28 @@
+## Build our project
+FROM composer as builder
+
+WORKDIR /var/www/html
+COPY composer.json composer.lock /var/www/html/
+
+RUN composer install --prefer-dist --no-scripts --no-dev --no-autoloader && rm -rf /root/.composer
+
+# Copy codebase
+COPY . /var/www/html/
+
+# Finish composer
+RUN composer dump-autoload --no-scripts --no-dev --optimize
+
+## php-fpm image
 FROM php:fpm-alpine
 
-RUN apk add --no-cache --virtual .build-deps \
+RUN apk add --no-cache \
     $PHPIZE_DEPS \
     curl-dev \
     imagemagick-dev \
     libtool \
     libxml2-dev \
     postgresql-dev \
-    sqlite-dev
-
-RUN apk add --no-cache \
+    sqlite-dev \
     bash \
     curl \
     g++ \
@@ -49,7 +62,6 @@ RUN docker-php-ext-install \
     zip \
     bcmath
 
-# Cleanup dev dependencies
-RUN apk del -f .build-deps
-
-RUN chown -R www-data:www-data /var/www
+WORKDIR /var/www/html
+COPY --from=builder /var/www/html /var/www/html/
+RUN chown -R www-data:www-data /var/www/html # /{bootstrap,storage}
