@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 processes=()
+trap kill_all EXIT
 
 function start() {
     "$@" &
@@ -12,6 +13,12 @@ function wait_all() {
         wait "$p"
     done
     processes=()
+}
+
+function kill_all() {
+    if [[ "${#processes[@]}" -gt 0 ]]; then
+        kill "${processes[@]}"
+    fi
 }
 
 function get_image_hash() {
