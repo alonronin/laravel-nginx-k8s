@@ -14,7 +14,7 @@ hash="$(get_image_hash)"
 #nginx_image="alonronin/php-fpm:nginx-${hash}"
 caddy_image="alonronin/php-fpm:caddy-${hash}"
 
-docker build . -f deploy/dockerfiles/caddy.Dockerfile -t "$caddy_image"
+docker build . -f deploy/dockerfiles/caddy-php.Dockerfile -t "$caddy_image"
 docker push "$caddy_image"
 echo "Built $caddy_image"
 

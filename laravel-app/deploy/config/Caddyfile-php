@@ -8,4 +8,6 @@ rewrite {
     to /index.php?{query}
 }
 
-on startup php-fpm7
+log stdout
+errors stdout
+on startup php-fpm --nodaemonize
