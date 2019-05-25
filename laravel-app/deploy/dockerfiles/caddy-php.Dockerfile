@@ -1,12 +1,10 @@
 FROM abiosoft/caddy:php as caddy
 
-WORKDIR /app
-
-COPY composer.json composer.lock /app/
+COPY composer.json composer.lock /srv/
 
 RUN composer install --no-autoloader
 
-COPY . /app/
+COPY . /srv/
 
 RUN composer dump-autoload
 
